@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Department {
+  id    String @id @default(uuid())
+  name  String
+  code  String
+  users User[]
+  reportSubmissions ReportSubmission[]
+  reportDefinitions ReportDefinition[]
+}
+
+model User {
+  id            String     @id @default(uuid())
+  email         String     @unique
+  name          String
+  password      String     // Will store plain text for demo (or simple hash)
+  role          String
+  avatarUrl     String?
+  department    Department @relation(fields: [departmentId], references: [id])
+  departmentId  String
+}
+
+model ReportDefinition {
+  id          String @id @default(uuid())
+  key         String @unique
+  name        String
+  description String @db.Text
+  periodType  String
+  status      String
+  structure   String @db.Text // JSON string
+  departmentId String? // Optional: Null = All Departments
+  department   Department? @relation(fields: [departmentId], references: [id])
+  submissions ReportSubmission[]
+}
+
+model ReportSubmission {
+  id                 String           @id @default(uuid())
+  reportDefinition   ReportDefinition @relation(fields: [reportDefinitionId], references: [id])
+  reportDefinitionId String
+  departmentId       String
+  departmentName     String? // Snapshot
+  department         Department? @relation(fields: [departmentId], references: [id]) // Optional link
+  submittedBy        String
+  submittedAt        DateTime         @default(now())
+  periodStart        DateTime
+  periodEnd          DateTime
+  data               String           @db.Text // JSON string-
+  status             String
+  version            Int
+}

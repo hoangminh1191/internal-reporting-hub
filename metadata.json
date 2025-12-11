@@ -1,0 +1,5 @@
+{
+  "name": "Internal Reporting Hub",
+  "description": "Enterprise reporting system with dynamic forms, approval workflows, and data aggregation.",
+  "requestFramePermissions": []
+}

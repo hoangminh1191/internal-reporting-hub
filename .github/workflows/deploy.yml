@@ -1,0 +1,38 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for 2 minutes
+        run: sleep 120
+
+      - name: Deploy using SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+             cd ${{ secrets.SERVER_PATH }}
+             git pull origin main
+             
+             # Build Frontend
+             echo "Building Frontend..."
+             npm install
+             npm run build
+             
+             # Build Backend & Database
+             echo "Building Backend..."
+             cd server
+             npm install
+             npm run build
+             npx prisma migrate deploy
+             
+             # Restart Application
+             echo "Restarting PM2 Service..."
+             pm2 restart reporting-hub
