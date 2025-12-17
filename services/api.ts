@@ -1,7 +1,7 @@
 import { User, ReportDefinition, ReportSubmission, Department, ReportStatus } from '../types';
 import { auth } from './auth';
 
-const API_URL = 'http://localhost:3003/api';
+const API_URL = 'http://localhost:3002/api';
 
 const request = async <T>(endpoint: string, options?: RequestInit): Promise<T> => {
   const headers = {

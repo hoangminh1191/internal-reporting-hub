@@ -57,14 +57,14 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
             <div className="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/20">
               <span className="text-white">R</span>
             </div>
-            Internal Reporting Hub
+            HỆ THỐNG BÁO CÁO TẬP TRUNG
           </div>
         </div>
 
         <div className="relative z-10 max-w-lg">
-          <h2 className="text-4xl font-bold mb-6 leading-tight">Quản lý báo cáo doanh nghiệp hiệu quả & minh bạch.</h2>
+          <h2 className="text-4xl font-bold mb-6 leading-tight">Quản lý báo cáo hiệu quả & minh bạch.</h2>
           <p className="text-lg text-blue-100 leading-relaxed">
-            Hệ thống tập trung giúp đơn giản hóa quy trình báo cáo, phê duyệt và theo dõi hiệu suất toàn doanh nghiệp.
+            Hệ thống tập trung giúp đơn giản hóa quy trình báo cáo, phê duyệt và theo dõi hiệu suất.
           </p>
         </div>
 
@@ -144,7 +144,7 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
                   demoUsers.map(u => (
                     <button
                       key={u.id}
-                      onClick={() => { setEmail(u.email); setPassword('123456'); }}
+                      onClick={() => { setEmail(u.email); setPassword(''); }}
                       className="flex justify-between items-center p-3 bg-white border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-all group text-left w-full"
                     >
                       <div>
