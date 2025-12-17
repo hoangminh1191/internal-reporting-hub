@@ -107,7 +107,6 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
             <div className="space-y-2">
               <div className="flex justify-between items-center">
                 <label className="text-sm font-medium text-gray-900 block">Mật khẩu</label>
-                <a href="#" className="text-sm font-medium text-blue-600 hover:text-blue-500 transition-colors">Quên mật khẩu?</a>
               </div>
               <input
                 type="password"
@@ -117,6 +116,9 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              <div className="flex justify-between items-center">
+                <a href="#" className="text-sm font-medium text-blue-600 hover:text-blue-500 transition-colors">Quên mật khẩu?</a>
+              </div>
             </div>
 
             <Button type="submit" className="w-full py-3 text-base font-semibold shadow-lg shadow-blue-500/30 hover:shadow-blue-500/40 rounded-xl" isLoading={loading}>
