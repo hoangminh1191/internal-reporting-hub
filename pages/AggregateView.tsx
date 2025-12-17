@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, Button } from '../components/UI';
 import { Download, Filter, FileText } from 'lucide-react';
 import { api } from '../services/api';
+import { utils, writeFile } from 'xlsx';
 import { ReportDefinition, ReportSubmission, ReportStatus } from '../types';
 
 export const AggregateView: React.FC = () => {
@@ -53,6 +54,37 @@ export const AggregateView: React.FC = () => {
     return { field, sum, avg };
   });
 
+  const handleExportExcel = () => {
+    if (!selectedDef) return;
+
+    // Flatten data for export
+    const exportData = filteredSubmissions.map(s => {
+      const row: any = {
+        'Ngày gửi': s.submittedAt ? new Date(s.submittedAt).toLocaleDateString() : '-',
+        'Người gửi': s.submittedBy,
+        'Phòng ban': s.departmentName,
+        'Trạng thái': s.status,
+      };
+
+      // Add dynamic fields
+      activeStructure.forEach(f => {
+        row[f.label] = s.data[f.id] !== undefined ? s.data[f.id] : '';
+      });
+
+      return row;
+    });
+
+    const worksheet = utils.json_to_sheet(exportData);
+    const workbook = utils.book_new();
+    utils.book_append_sheet(workbook, worksheet, "Data");
+
+    // Generate filename
+    const dateStr = new Date().toISOString().split('T')[0];
+    const fileName = `${selectedDef.name}_${dateStr}.xlsx`;
+
+    writeFile(workbook, fileName);
+  };
+
   if (loading) return <div>Đang tải dữ liệu...</div>;
 
   return (
@@ -73,7 +105,7 @@ export const AggregateView: React.FC = () => {
               <option key={d.id} value={d.id}>{d.name}</option>
             ))}
           </select>
-          <Button variant="primary"><Download size={16} className="mr-2" /> Xuất Excel</Button>
+          <Button variant="primary" onClick={handleExportExcel}><Download size={16} className="mr-2" /> Xuất Excel</Button>
         </div>
       </div>
 
